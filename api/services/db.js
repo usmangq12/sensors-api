@@ -15,50 +15,11 @@ pool.on('connect', () => {
     console.log('connected to the Database');
 });
 
-const sensorTable = `CREATE TABLE IF NOT EXISTS
-        sensors(
-            id SERIAL PRIMARY KEY,
-            z1 VARCHAR(128),
-            z2 VARCHAR(128),
-            z3 VARCHAR(128),
-            z4 VARCHAR(128)
-        )`;
-
-const loginTable = `CREATE TABLE IF NOT EXISTS
-        login(
-            id SERIAL PRIMARY KEY,
-            userName VARCHAR(128),
-            password VARCHAR(128),
-        )`
-
-const createTables = () => {
-
-    // pool.query(sensorTable)
-    //     .then((res) => {
-    //         console.log("sensorTable Created");
-    //         pool.end();
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //         pool.end();
-    //     });
-
-    pool.query(loginTable)
-        .then((res) => {
-            console.log("loginTable Created");
-            pool.end();
-        })
-        .catch((err) => {
-            console.log(err);
-            pool.end();
-        });
+const createTables = async () => {
+    var client = new pg.Client(config);
+    client.connect();
+    client.query('CREATE TABLE sensors(id SERIAL PRIMARY KEY, z1 VARCHAR(128), z2 VARCHAR(128), z3 VARCHAR(128), z4 VARCHAR(128));CREATE TABLE users(id SERIAL PRIMARY KEY, userName VARCHAR(128) not null, password VARCHAR(128));')
 };
-
-pool.on('remove', () => {
-    console.log('client removed');
-    process.exit(0);
-});
-
 
 //export pool and createTables to be accessible  from an where within the application
 module.exports = {
