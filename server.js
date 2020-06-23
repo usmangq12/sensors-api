@@ -61,7 +61,7 @@ app.get('/users', (req, res) => {
   });
 });
 
-app.post('/users', (req, res) => {
+app.post('/add-users', (req, res) => {
   const {username, password} = req.body;
   pool.connect((err, client, done) => {
     const query = `INSERT INTO users(username, password) VALUES (${username}, ${password}) `;
@@ -69,10 +69,14 @@ app.post('/users', (req, res) => {
       if (error) {
         res.status(400).json({error});
       }
-      res.status(202).send({
-        status: true,
-        result: result.rows[0],
-      });
+      else {
+        res.status(202).send({
+          status: true,
+          result: result,
+        });
+      }
+      console.log('result:', result)
+
     });
   });
 });

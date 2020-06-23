@@ -18,7 +18,7 @@ pool.on('connect', () => {
 const createTables = async () => {
     var client = new pg.Client(config);
     client.connect();
-    client.query('CREATE TABLE sensors(id SERIAL PRIMARY KEY, z1 VARCHAR(128), z2 VARCHAR(128), z3 VARCHAR(128), z4 VARCHAR(128));CREATE TABLE users(id SERIAL PRIMARY KEY, userName VARCHAR(128) not null, password VARCHAR(128));')
+    client.query('CREATE TABLE users(id SERIAL PRIMARY KEY, username VARCHAR(128), password VARCHAR(128));')
 };
 
 //export pool and createTables to be accessible  from an where within the application
